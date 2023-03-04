@@ -1,10 +1,12 @@
 import javax.swing.tree.TreeNode;
 import java.util.ArrayList;
+import java.util.Random;
 
+// customer account
 public class CA extends People
 {
     String address;
-    int cardNum;
+    String cardNum;
     int chequing;
     int savings;
     ArrayList<Transaction> chequingHist;
@@ -13,33 +15,61 @@ public class CA extends People
     ArrayList<Request> requests;
 
 
-    public CA(String firstName, String lastName, String email, String phoneNum, int id, String address,
-              int cardNum, int chequing, int savings, ArrayList<Transaction> chequingHist,
-              ArrayList<Transaction> savingsHist, ArrayList<Report> reportSus, ArrayList<Request> requests)
+    public CA(String firstName, String lastName, String email, String phoneNum, int id, String address)
     {
         super(firstName, lastName, email, phoneNum, id);
         this.address = address;
-        this.cardNum = cardNum;
-        this.chequing = chequing;
-        this.savings = savings;
-        this.chequingHist = chequingHist;
-        this.savingsHist = savingsHist;
-        this.reportSus = reportSus;
-        this.requests = requests;
+    }
+
+    public void generateCard()
+    {
+        Random random = new Random();
+        
+        // Generate the first 11 digits of the new credit card number
+        StringBuilder stringObject = new StringBuilder();
+        for (int i = 0; i < 11; i++) {
+            stringObject.append(random.nextInt(10));
+        }
+        
+        // Calculate the check digit using the Luhn algorithm
+        int checkDigit = calculateCheckDigit(stringObject.toString());
+        
+        // Append the check digit to the credit card number
+        stringObject.append(checkDigit);
+        
+        cardNum = stringObject.toString();
+    }
+
+    private static int calculateCheckDigit(String cardNumber) {
+        int sum = 0;
+        boolean alternate = false;
+        for (int i = cardNumber.length() - 1; i >= 0; i--) {
+            int digit = Integer.parseInt(cardNumber.substring(i, i + 1));
+            if (alternate) {
+                digit *= 2;
+                if (digit > 9) {
+                    digit -= 9;
+                }
+            }
+            sum += digit;
+            alternate = !alternate;
+        }
+        int mod = sum % 10;
+        return mod == 0 ? 0 : 10 - mod;
     }
 
     // Setter and getter for address
     public String getAddress()
     {
-        return address;
+        return this.address;
     }
     public void setAddress(String Address)
     {
-        this.address = address;
+        this.address = Address;
     }
 
     // Getter for card number, chequing funds, and savings funds
-    public int getCardNum()
+    public String getCardNum()
     {
         return cardNum;
     }
