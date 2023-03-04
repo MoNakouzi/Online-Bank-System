@@ -39,10 +39,13 @@ public class CA extends People
         
         cardNum = stringObject.toString();
     }
-
+    
+    // Luhn algorithm
     private static int calculateCheckDigit(String cardNumber) {
         int sum = 0;
         boolean alternate = false;
+        
+        // Generate 12 unique DIGITS
         for (int i = cardNumber.length() - 1; i >= 0; i--) {
             int digit = Integer.parseInt(cardNumber.substring(i, i + 1));
             if (alternate) {
