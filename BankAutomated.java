@@ -2,6 +2,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.MouseAdapter;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.FileOutputStream;
 
 public class BankAutomated extends JPanel implements Runnable
 {
@@ -40,9 +44,11 @@ public class BankAutomated extends JPanel implements Runnable
     }
 
     // This allows a new client to register for an account by inputting their details
-    public void createAccount(String firstName, String lastName, String email, int phoneNum, int id,
-                              String address, int cardNum)
+    public void createAccount(String firstName, String lastName, String email, String phoneNum, int id,
+                              String address, int cardNum) throws FileNotFoundException, IOException
     {
+        CA customerAccount = new CA(firstName, lastName, email, phoneNum, id, address);
+        customerAccount.generateCard();
 
     }
 
